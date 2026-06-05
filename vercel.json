@@ -1,1 +1,1 @@
-{"buildCommand": "npm install && npx expo export -p web", "outputDirectory": "dist", "installCommand": "npm install"}
+{"outputDirectory": "dist"}
