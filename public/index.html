@@ -1,0 +1,300 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LogiEco — AAPISE</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--green:#1D9E75;--green-light:#E1F5EE;--green-dark:#0F6E56;--amber:#F59E0B;--amber-light:#FAEEDA;--blue:#3B82F6;--blue-light:#EFF6FF;--red:#EF4444;--red-light:#FEE2E2;--gray-light:#F1EFE8;--bg:#F7F6F3;--surface:#FFFFFF;--border:#E5E3DC;--text:#1A1A18;--text-2:#5F5E5A;--text-3:#9B9A96;--sidebar-w:240px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden;font-size:14px}
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;overflow-y:auto}
+.logo{padding:20px 18px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.logo-icon{width:34px;height:34px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:16px}
+.logo-text{font-size:17px;font-weight:600;letter-spacing:-0.3px}
+.logo-text span{color:var(--green)}
+.logo-sub{font-size:11px;color:var(--text-3);margin-top:1px}
+.nav{flex:1;padding:12px 10px}
+.nav-section{margin-bottom:22px}
+.nav-label{font-size:10px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:1px;padding:0 8px;margin-bottom:4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;font-size:13px;color:var(--text-2);transition:all .15s;margin-bottom:2px;text-decoration:none}
+.nav-item:hover{background:var(--bg);color:var(--text)}
+.nav-item.active{background:var(--green-light);color:var(--green-dark);font-weight:500}
+.nav-item i{width:16px;text-align:center;font-size:13px}
+.nav-badge{margin-left:auto;background:var(--amber);color:white;border-radius:99px;font-size:10px;font-weight:600;padding:1px 6px}
+.sidebar-footer{padding:14px 18px;border-top:1px solid var(--border);font-size:11px;color:var(--text-3);display:flex;align-items:center;gap:8px}
+.avatar{width:28px;height:28px;background:var(--green);border-radius:99px;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;font-weight:600}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.topbar-title{font-size:15px;font-weight:600}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.search-box{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:13px;color:var(--text-2);width:220px}
+.search-box i{color:var(--text-3);font-size:12px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1px solid var(--border);font-size:13px;cursor:pointer;font-family:inherit;font-weight:500;background:var(--surface);color:var(--text);transition:all .15s}
+.btn:hover{background:var(--bg)}
+.btn-primary{background:var(--green);border-color:var(--green);color:white}
+.btn-primary:hover{background:var(--green-dark)}
+.content{flex:1;overflow-y:auto;padding:24px}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:20px}
+.tab{padding:9px 16px;font-size:13px;cursor:pointer;color:var(--text-2);border-bottom:2px solid transparent;transition:all .15s;font-weight:500;margin-bottom:-1px}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--green);border-bottom-color:var(--green)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat{background:var(--surface);border-radius:10px;padding:16px;border:1px solid var(--border)}
+.stat-label{font-size:12px;color:var(--text-2);margin-bottom:8px}
+.stat-val{font-size:26px;font-weight:600;color:var(--text);font-family:'DM Mono',monospace}
+.stat-sub{font-size:11px;color:var(--text-3);margin-top:4px}
+.table-card{background:var(--surface);border-radius:10px;border:1px solid var(--border);overflow:hidden;margin-bottom:16px}
+.table-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.table-title{font-size:13px;font-weight:600}
+table{width:100%;border-collapse:collapse}
+thead{background:var(--bg)}
+th{padding:10px 16px;text-align:left;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.6px;white-space:nowrap}
+td{padding:12px 16px;border-top:1px solid var(--border);font-size:13px;color:var(--text)}
+tr:hover td{background:#FAFAF8}
+.td-mono{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-2)}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:600}
+.badge::before{content:'';width:5px;height:5px;border-radius:99px;background:currentColor;opacity:.7}
+.badge-green{background:var(--green-light);color:var(--green-dark)}
+.badge-amber{background:var(--amber-light);color:#92400E}
+.badge-blue{background:var(--blue-light);color:#1D4ED8}
+.badge-gray{background:var(--gray-light);color:var(--text-2)}
+.badge-red{background:var(--red-light);color:#991B1B}
+.page{display:none}
+.page.active{display:block}
+.fournisseur-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.fournisseur-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px}
+.fournisseur-card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+.fournisseur-name{font-size:14px;font-weight:600}
+.fournisseur-cat{font-size:11px;color:var(--text-3);margin-top:2px}
+.fournisseur-info{font-size:12px;color:var(--text-2);display:flex;flex-direction:column;gap:5px;margin-top:10px}
+.fournisseur-info span{display:flex;align-items:center;gap:6px}
+.fournisseur-info i{width:12px;color:var(--text-3)}
+.fournisseur-footer{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)}
+.delai-badge{font-size:11px;font-weight:500;color:var(--text-2);background:var(--bg);padding:3px 8px;border-radius:6px;border:1px solid var(--border)}
+.stock-bar-wrap{display:flex;align-items:center;gap:8px}
+.stock-bar{flex:1;height:6px;background:var(--bg);border-radius:99px;overflow:hidden}
+.stock-bar-fill{height:100%;border-radius:99px}
+.stock-ok{background:var(--green)}
+.stock-warn{background:var(--amber)}
+.stock-crit{background:var(--red)}
+.stock-qty{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:var(--text-2);min-width:40px;text-align:right}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:12px;padding:24px;width:460px;border:1px solid var(--border);box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.modal-title{font-size:16px;font-weight:600;margin-bottom:18px}
+.form-group{margin-bottom:14px}
+.form-label{font-size:12px;font-weight:500;color:var(--text-2);margin-bottom:5px;display:block}
+.form-input{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--text);background:var(--surface);outline:none}
+.form-input:focus{border-color:var(--green)}
+.form-select{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;color:var(--text);background:var(--surface);outline:none}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+.notif{position:fixed;bottom:24px;right:24px;background:var(--text);color:white;padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;transition:all .3s;z-index:200}
+.notif.show{transform:translateY(0);opacity:1}
+.notif i{color:var(--green)}
+</style>
+</head>
+<body>
+<div class="sidebar">
+  <div class="logo">
+    <div class="logo-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+    <div><div class="logo-text">Logi<span>Eco</span></div><div class="logo-sub">AAPISE · 27 établissements</div></div>
+  </div>
+  <nav class="nav">
+    <div class="nav-section">
+      <div class="nav-label">Vue d ensemble</div>
+      <a class="nav-item active" onclick="showPage('dashboard',this,'Tableau de bord')"><i class="fa-solid fa-chart-pie"></i> Tableau de bord</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Archives</div>
+      <a class="nav-item" onclick="showPage('archives',this,'Commandes et Factures')"><i class="fa-solid fa-archive"></i> Commandes et Factures</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Gestion</div>
+      <a class="nav-item" onclick="showPage('bdc',this,'Bons de commande')"><i class="fa-solid fa-file-invoice"></i> Bons de commande<span class="nav-badge">3</span></a>
+      <a class="nav-item" onclick="showPage('stocks',this,'Gestion des stocks')"><i class="fa-solid fa-warehouse"></i> Stocks<span class="nav-badge" style="background:var(--red)">7</span></a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-label">Fournisseurs</div>
+      <a class="nav-item" onclick="showPage('f-epi',this,'Fournisseurs EPI et Maintenance')"><i class="fa-solid fa-helmet-safety"></i> EPI et Maintenance</a>
+      <a class="nav-item" onclick="showPage('f-entretien',this,'Fournisseurs Entretien')"><i class="fa-solid fa-spray-can-sparkles"></i> Entretien</a>
+      <a class="nav-item" onclick="showPage('f-bureau',this,'Fournisseurs Bureautique')"><i class="fa-solid fa-print"></i> Bureautique</a>
+    </div>
+  </nav>
+  <div class="sidebar-footer"><div class="avatar">LG</div><div><div style="font-size:12px;color:var(--text-2);font-weight:500">Logistique AAPISE</div><div>v1.0 2025</div></div></div>
+</div>
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="page-title">Tableau de bord</div>
+    <div class="topbar-right">
+      <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i> Rechercher</div>
+      <button class="btn btn-primary" onclick="openModal()"><i class="fa-solid fa-plus"></i> Nouveau</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="page active" id="page-dashboard">
+      <div class="stats">
+        <div class="stat"><div class="stat-label">BDC ouverts</div><div class="stat-val">14</div><div class="stat-sub">3 ce mois</div></div>
+        <div class="stat"><div class="stat-label">Alertes stock</div><div class="stat-val">7</div><div class="stat-sub">sous le seuil</div></div>
+        <div class="stat"><div class="stat-label">Etablissements</div><div class="stat-val">27</div><div class="stat-sub">actifs</div></div>
+        <div class="stat"><div class="stat-label">Volume 2024</div><div class="stat-val">84k</div><div class="stat-sub">euros commandes</div></div>
+      </div>
+      <div class="table-card">
+        <div class="table-header"><div class="table-title">Dernieres commandes</div></div>
+        <table><thead><tr><th>N Commande</th><th>Etablissement</th><th>Fournisseur</th><th>Date</th><th>Montant</th><th>Statut</th></tr></thead>
+        <tbody>
+          <tr><td class="td-mono">CMD-2024-0412</td><td>IME La Colline</td><td>Manutan</td><td>12/11/2024</td><td>1 240 EUR</td><td><span class="badge badge-green">Livre</span></td></tr>
+          <tr><td class="td-mono">CMD-2024-0411</td><td>ESAT Horizon</td><td>Lyreco</td><td>08/11/2024</td><td>380 EUR</td><td><span class="badge badge-green">Livre</span></td></tr>
+          <tr><td class="td-mono">CMD-2024-0410</td><td>MAS Les Pins</td><td>Raja</td><td>02/11/2024</td><td>720 EUR</td><td><span class="badge badge-amber">En cours</span></td></tr>
+          <tr><td class="td-mono">CMD-2024-0409</td><td>FAM Esperanza</td><td>3M Safety</td><td>28/10/2024</td><td>2 100 EUR</td><td><span class="badge badge-green">Livre</span></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    <div class="page" id="page-archives">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab(this,'arc-cmd')">Commandes</div>
+        <div class="tab" onclick="switchTab(this,'arc-fac')">Factures</div>
+      </div>
+      <div id="arc-cmd">
+        <div class="stats" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat"><div class="stat-label">Total archive</div><div class="stat-val">1248</div></div>
+          <div class="stat"><div class="stat-label">Volume annuel</div><div class="stat-val">412</div></div>
+          <div class="stat"><div class="stat-label">Montant 2024</div><div class="stat-val">84k EUR</div></div>
+        </div>
+        <div class="table-card"><div class="table-header"><div class="table-title">Historique commandes</div></div>
+        <table><thead><tr><th>N Commande</th><th>Etablissement</th><th>Date</th><th>Fournisseur</th><th>Montant</th><th>Statut</th></tr></thead>
+        <tbody>
+          <tr><td class="td-mono">CMD-2024-0412</td><td>IME La Colline</td><td>12/11/2024</td><td>Manutan</td><td>1 240 EUR</td><td><span class="badge badge-green">Livre</span></td></tr>
+          <tr><td class="td-mono">CMD-2024-0411</td><td>ESAT Horizon</td><td>08/11/2024</td><td>Lyreco</td><td>380 EUR</td><td><span class="badge badge-green">Livre</span></td></tr>
+          <tr><td class="td-mono">CMD-2024-0410</td><td>MAS Les Pins</td><td>02/11/2024</td><td>Raja</td><td>720 EUR</td><td><span class="badge badge-amber">En cours</span></td></tr>
+          <tr><td class="td-mono">CMD-2024-0409</td><td>FAM Esperanza</td><td>28/10/2024</td><td>3M Safety</td><td>2 100 EUR</td><td><span class="badge badge-green">Livre</span></td></tr>
+          <tr><td class="td-mono">CMD-2024-0408</td><td>SESSAD Nord</td><td>21/10/2024</td><td>Wurth</td><td>560 EUR</td><td><span class="badge badge-gray">Archive</span></td></tr>
+        </tbody></table></div>
+      </div>
+      <div id="arc-fac" style="display:none">
+        <div class="table-card"><div class="table-header"><div class="table-title">Factures archivees</div></div>
+        <table><thead><tr><th>N Facture</th><th>Fournisseur</th><th>Etablissement</th><th>Date</th><th>Montant HT</th><th>Statut</th></tr></thead>
+        <tbody>
+          <tr><td class="td-mono">FAC-2024-0892</td><td>Manutan</td><td>IME La Colline</td><td>15/11/2024</td><td>1 033 EUR</td><td><span class="badge badge-green">Payee</span></td></tr>
+          <tr><td class="td-mono">FAC-2024-0891</td><td>Lyreco</td><td>ESAT Horizon</td><td>10/11/2024</td><td>317 EUR</td><td><span class="badge badge-green">Payee</span></td></tr>
+          <tr><td class="td-mono">FAC-2024-0890</td><td>3M Safety</td><td>FAM Esperanza</td><td>01/11/2024</td><td>1 750 EUR</td><td><span class="badge badge-amber">En attente</span></td></tr>
+          <tr><td class="td-mono">FAC-2024-0889</td><td>Raja</td><td>MAS Les Pins</td><td>25/10/2024</td><td>600 EUR</td><td><span class="badge badge-red">Litige</span></td></tr>
+        </tbody></table></div>
+      </div>
+    </div>
+    <div class="page" id="page-bdc">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab(this,'bdc-tous')">Tous</div>
+        <div class="tab" onclick="switchTab(this,'bdc-valider')">A valider</div>
+        <div class="tab" onclick="switchTab(this,'bdc-envoye')">Envoyes</div>
+      </div>
+      <div id="bdc-tous">
+        <div class="stats"><div class="stat"><div class="stat-label">Ouverts</div><div class="stat-val">14</div></div><div class="stat"><div class="stat-label">A valider</div><div class="stat-val">3</div></div><div class="stat"><div class="stat-label">Envoyes</div><div class="stat-val">8</div></div><div class="stat"><div class="stat-label">Clotures 2024</div><div class="stat-val">126</div></div></div>
+        <div class="table-card"><div class="table-header"><div class="table-title">Bons de commande</div><button class="btn btn-primary" onclick="openModal()"><i class="fa-solid fa-plus"></i> Nouveau BDC</button></div>
+        <table><thead><tr><th>Etablissement</th><th>Responsable</th><th>Articles</th><th>Montant estime</th><th>Date besoin</th><th>Statut</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>IME La Colline</td><td>M. Benali</td><td>12</td><td>840 EUR</td><td>20/12/2024</td><td><span class="badge badge-amber">A valider</span></td><td><button class="btn" style="padding:4px 10px;font-size:12px" onclick="validerBDC(this)">Valider</button></td></tr>
+          <tr><td>MAS Les Pins</td><td>Mme Dupont</td><td>5</td><td>320 EUR</td><td>15/12/2024</td><td><span class="badge badge-blue">Envoye</span></td><td>-</td></tr>
+          <tr><td>ESAT Horizon</td><td>M. Laurent</td><td>8</td><td>1 200 EUR</td><td>10/01/2025</td><td><span class="badge badge-amber">A valider</span></td><td><button class="btn" style="padding:4px 10px;font-size:12px" onclick="validerBDC(this)">Valider</button></td></tr>
+          <tr><td>FAM Esperanza</td><td>Mme Ferreira</td><td>3</td><td>150 EUR</td><td>05/01/2025</td><td><span class="badge badge-green">Valide</span></td><td>-</td></tr>
+        </tbody></table></div>
+      </div>
+      <div id="bdc-valider" style="display:none"><div style="padding:40px;text-align:center;color:var(--text-3)">BDC en attente de validation</div></div>
+      <div id="bdc-envoye" style="display:none"><div style="padding:40px;text-align:center;color:var(--text-3)">BDC envoyes aux fournisseurs</div></div>
+    </div>
+    <div class="page" id="page-stocks">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab(this,'stk-logi')">Entrepot central</div>
+        <div class="tab" onclick="switchTab(this,'stk-etab')">Par etablissement</div>
+      </div>
+      <div id="stk-logi">
+        <div class="stats"><div class="stat"><div class="stat-label">References</div><div class="stat-val">342</div></div><div class="stat"><div class="stat-label" style="color:var(--red)">Alertes</div><div class="stat-val" style="color:var(--red)">7</div></div><div class="stat"><div class="stat-label">Valeur stock</div><div class="stat-val">18k EUR</div></div><div class="stat"><div class="stat-label">Mouvements mois</div><div class="stat-val">43</div></div></div>
+        <div class="table-card"><div class="table-header"><div class="table-title">Stock entrepot</div><button class="btn btn-primary" onclick="openModalStock()"><i class="fa-solid fa-plus"></i> Ajouter article</button></div>
+        <table><thead><tr><th>Reference</th><th>Designation</th><th>Categorie</th><th>Niveau</th><th>Qte / Seuil</th><th>Etat</th></tr></thead>
+        <tbody>
+          <tr><td class="td-mono">EPI-0041</td><td>Gants nitrile T8 x100</td><td>EPI</td><td><div class="stock-bar-wrap"><div class="stock-bar"><div class="stock-bar-fill stock-ok" style="width:80%"></div></div></div></td><td>24 / 20</td><td><span class="badge badge-green">OK</span></td></tr>
+          <tr><td class="td-mono">ENT-0018</td><td>Desinfectant sol 5L</td><td>Entretien</td><td><div class="stock-bar-wrap"><div class="stock-bar"><div class="stock-bar-fill stock-crit" style="width:20%"></div></div></div></td><td>6 / 15</td><td><span class="badge badge-red">Alerte</span></td></tr>
+          <tr><td class="td-mono">BUR-0072</td><td>Ramette A4 80g</td><td>Bureautique</td><td><div class="stock-bar-wrap"><div class="stock-bar"><div class="stock-bar-fill stock-ok" style="width:100%"></div></div></div></td><td>120 / 50</td><td><span class="badge badge-green">OK</span></td></tr>
+          <tr><td class="td-mono">EPI-0038</td><td>Masques FFP2 x20</td><td>EPI</td><td><div class="stock-bar-wrap"><div class="stock-bar"><div class="stock-bar-fill stock-crit" style="width:15%"></div></div></div></td><td>8 / 30</td><td><span class="badge badge-red">Alerte</span></td></tr>
+          <tr><td class="td-mono">MNT-0012</td><td>Ampoules LED E27</td><td>Maintenance</td><td><div class="stock-bar-wrap"><div class="stock-bar"><div class="stock-bar-fill stock-ok" style="width:75%"></div></div></div></td><td>45 / 20</td><td><span class="badge badge-green">OK</span></td></tr>
+          <tr><td class="td-mono">ENT-0022</td><td>Savon mains 5L</td><td>Entretien</td><td><div class="stock-bar-wrap"><div class="stock-bar"><div class="stock-bar-fill stock-warn" style="width:40%"></div></div></div></td><td>10 / 12</td><td><span class="badge badge-amber">Faible</span></td></tr>
+          <tr><td class="td-mono">BUR-0031</td><td>Cartouches HP</td><td>Bureautique</td><td><div class="stock-bar-wrap"><div class="stock-bar"><div class="stock-bar-fill stock-ok" style="width:60%"></div></div></div></td><td>18 / 10</td><td><span class="badge badge-green">OK</span></td></tr>
+        </tbody></table></div>
+      </div>
+      <div id="stk-etab" style="display:none">
+        <div class="table-card"><div class="table-header"><div class="table-title">Stock par etablissement</div></div>
+        <table><thead><tr><th>Etablissement</th><th>References</th><th>Valeur estimee</th><th>Derniere MAJ</th><th>Etat</th></tr></thead>
+        <tbody>
+          <tr><td>IME La Colline</td><td>38</td><td>2 100 EUR</td><td>05/11/2024</td><td><span class="badge badge-green">A jour</span></td></tr>
+          <tr><td>MAS Les Pins</td><td>21</td><td>980 EUR</td><td>01/10/2024</td><td><span class="badge badge-amber">Retard</span></td></tr>
+          <tr><td>ESAT Horizon</td><td>54</td><td>3 400 EUR</td><td>10/11/2024</td><td><span class="badge badge-green">A jour</span></td></tr>
+          <tr><td>FAM Esperanza</td><td>17</td><td>760 EUR</td><td>08/11/2024</td><td><span class="badge badge-green">A jour</span></td></tr>
+          <tr><td>SESSAD Nord</td><td>12</td><td>420 EUR</td><td>15/09/2024</td><td><span class="badge badge-red">Retard</span></td></tr>
+          <tr><td>ITEP La Garrigue</td><td>29</td><td>1 200 EUR</td><td>03/11/2024</td><td><span class="badge badge-green">A jour</span></td></tr>
+          <tr><td>MAS Saint-Joseph</td><td>33</td><td>1 800 EUR</td><td>28/10/2024</td><td><span class="badge badge-amber">Retard</span></td></tr>
+        </tbody></table></div>
+      </div>
+    </div>
+    <div class="page" id="page-f-epi">
+      <div class="fournisseur-grid">
+        <div class="fournisseur-card"><div class="fournisseur-card-header"><div><div class="fournisseur-name">3M Safety France</div><div class="fournisseur-cat">EPI</div></div><span class="badge badge-green">Actif</span></div><div class="fournisseur-info"><span><i class="fa-solid fa-envelope"></i> commercial@3m.fr</span><span><i class="fa-solid fa-phone"></i> 01 30 31 60 00</span></div><div class="fournisseur-footer"><span class="delai-badge">5 jours</span><span style="font-size:11px;color:var(--text-3)">Marche 2024-2026</span></div></div>
+        <div class="fournisseur-card"><div class="fournisseur-card-header"><div><div class="fournisseur-name">Wurth France</div><div class="fournisseur-cat">Maintenance</div></div><span class="badge badge-green">Actif</span></div><div class="fournisseur-info"><span><i class="fa-solid fa-envelope"></i> pro@wurth.fr</span><span><i class="fa-solid fa-phone"></i> 03 89 20 19 18</span></div><div class="fournisseur-footer"><span class="delai-badge">3 jours</span><span style="font-size:11px;color:var(--text-3)">Marche 2023-2025</span></div></div>
+        <div class="fournisseur-card"><div class="fournisseur-card-header"><div><div class="fournisseur-name">Manutan Pro</div><div class="fournisseur-cat">EPI / Maintenance</div></div><span class="badge badge-amber">Renouvellement</span></div><div class="fournisseur-info"><span><i class="fa-solid fa-envelope"></i> b2b@manutan.fr</span><span><i class="fa-solid fa-phone"></i> 01 49 68 47 00</span></div><div class="fournisseur-footer"><span class="delai-badge">4 jours</span><span style="font-size:11px;color:var(--text-3)">En cours</span></div></div>
+      </div>
+    </div>
+    <div class="page" id="page-f-entretien">
+      <div class="fournisseur-grid">
+        <div class="fournisseur-card"><div class="fournisseur-card-header"><div><div class="fournisseur-name">Ecolab France</div><div class="fournisseur-cat">Desinfectants et nettoyants</div></div><span class="badge badge-green">Actif</span></div><div class="fournisseur-info"><span><i class="fa-solid fa-envelope"></i> pro@ecolab.fr</span><span><i class="fa-solid fa-phone"></i> 01 47 17 33 00</span></div><div class="fournisseur-footer"><span class="delai-badge">4 jours</span><span style="font-size:11px;color:var(--text-3)">Marche 2024-2027</span></div></div>
+        <div class="fournisseur-card"><div class="fournisseur-card-header"><div><div class="fournisseur-name">Henkel Pro</div><div class="fournisseur-cat">Sol et surfaces</div></div><span class="badge badge-green">Actif</span></div><div class="fournisseur-info"><span><i class="fa-solid fa-envelope"></i> b2b@henkel.fr</span><span><i class="fa-solid fa-phone"></i> 01 41 32 30 00</span></div><div class="fournisseur-footer"><span class="delai-badge">6 jours</span><span style="font-size:11px;color:var(--text-3)">Annuel</span></div></div>
+        <div class="fournisseur-card"><div class="fournisseur-card-header"><div><div class="fournisseur-name">Raja Hygiene</div><div class="fournisseur-cat">Papier, gants, sacs</div></div><span class="badge badge-blue">Consultation</span></div><div class="fournisseur-info"><span><i class="fa-solid fa-envelope"></i> hyg@raja.fr</span><span><i class="fa-solid fa-phone"></i> 01 48 63 34 44</span></div><div class="fournisseur-footer"><span class="delai-badge">3 jours</span><span style="font-size:11px;color:var(--text-3)">En cours</span></div></div>
+      </div>
+    </div>
+    <div class="page" id="page-f-bureau">
+      <div class="fournisseur-grid">
+        <div class="fournisseur-card"><div class="fournisseur-card-header"><div><div class="fournisseur-name">Lyreco France</div><div class="fournisseur-cat">Papeterie et consommables</div></div><span class="badge badge-green">Actif</span></div><div class="fournisseur-info"><span><i class="fa-solid fa-envelope"></i> pro@lyreco.fr</span><span><i class="fa-solid fa-phone"></i> 01 64 86 60 00</span></div><div class="fournisseur-footer"><span class="delai-badge">2 jours</span><span style="font-size:11px;color:var(--text-3)">Marche 2024-2026</span></div></div>
+        <div class="fournisseur-card"><div class="fournisseur-card-header"><div><div class="fournisseur-name">Staples France</div><div class="fournisseur-cat">Mobilier bureau</div></div><span class="badge badge-gray">Occasionnel</span></div><div class="fournisseur-info"><span><i class="fa-solid fa-envelope"></i> b2b@staples.fr</span><span><i class="fa-solid fa-phone"></i> 01 74 09 10 00</span></div><div class="fournisseur-footer"><span class="delai-badge">7 jours</span><span style="font-size:11px;color:var(--text-3)">Ponctuel</span></div></div>
+        <div class="fournisseur-card"><div class="fournisseur-card-header"><div><div class="fournisseur-name">HP Store Pro</div><div class="fournisseur-cat">Informatique et imprimantes</div></div><span class="badge badge-green">Actif</span></div><div class="fournisseur-info"><span><i class="fa-solid fa-envelope"></i> edu@hp.com</span><span><i class="fa-solid fa-phone"></i> 08 26 10 49 49</span></div><div class="fournisseur-footer"><span class="delai-badge">5 jours</span><span style="font-size:11px;color:var(--text-3)">En cours</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-title">Nouveau bon de commande</div>
+    <div class="form-group"><label class="form-label">Etablissement</label><select class="form-select"><option>IME La Colline</option><option>ESAT Horizon</option><option>MAS Les Pins</option><option>FAM Esperanza</option><option>SESSAD Nord</option><option>ITEP La Garrigue</option><option>MAS Saint-Joseph</option><option>FAM Les Oliviers</option><option>SESSAD Sud</option><option>SESSAD Est</option></select></div>
+    <div class="form-group"><label class="form-label">Fournisseur</label><select class="form-select"><option>Manutan Pro</option><option>Lyreco France</option><option>3M Safety</option><option>Wurth France</option><option>Ecolab France</option></select></div>
+    <div class="form-group"><label class="form-label">Date de besoin</label><input type="date" class="form-input"></div>
+    <div class="form-group"><label class="form-label">Notes</label><input type="text" class="form-input" placeholder="Details ou articles souhaites"></div>
+    <div class="modal-actions"><button class="btn" onclick="closeModal()">Annuler</button><button class="btn btn-primary" onclick="saveBDC()"><i class="fa-solid fa-check"></i> Creer</button></div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-stock">
+  <div class="modal">
+    <div class="modal-title">Ajouter un article au stock</div>
+    <div class="form-group"><label class="form-label">Reference</label><input type="text" class="form-input" placeholder="EPI-0042"></div>
+    <div class="form-group"><label class="form-label">Designation</label><input type="text" class="form-input" placeholder="Nom de l article"></div>
+    <div class="form-group"><label class="form-label">Categorie</label><select class="form-select"><option>EPI</option><option>Maintenance</option><option>Entretien</option><option>Bureautique</option></select></div>
+    <div class="form-group"><label class="form-label">Quantite initiale</label><input type="number" class="form-input" placeholder="0"></div>
+    <div class="form-group"><label class="form-label">Seuil d alerte</label><input type="number" class="form-input" placeholder="10"></div>
+    <div class="modal-actions"><button class="btn" onclick="closeModalStock()">Annuler</button><button class="btn btn-primary" onclick="saveStock()"><i class="fa-solid fa-check"></i> Ajouter</button></div>
+  </div>
+</div>
+<div class="notif" id="notif"><i class="fa-solid fa-check-circle"></i> <span id="notif-text"></span></div>
+<script>
+function showPage(id,el,title){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+id).classList.add('active');document.getElementById('page-title').textContent=title;document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));if(el&&el.classList)el.classList.add('active')}
+function switchTab(el,targetId){const page=el.closest('.page');page.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');const allPanels=page.querySelectorAll('[id]');allPanels.forEach(p=>{if(p!==page)p.style.display='none'});const target=document.getElementById(targetId);if(target)target.style.display='block'}
+function openModal(){document.getElementById('modal').classList.add('open')}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+function openModalStock(){document.getElementById('modal-stock').classList.add('open')}
+function closeModalStock(){document.getElementById('modal-stock').classList.remove('open')}
+function saveBDC(){closeModal();showNotif('Bon de commande cree avec succes')}
+function saveStock(){closeModalStock();showNotif('Article ajoute au stock')}
+function validerBDC(btn){const td=btn.closest('td');const statusTd=td.previousElementSibling;statusTd.innerHTML='<span class="badge badge-green">Valide</span>';btn.textContent='OK';btn.disabled=true;showNotif('BDC valide')}
+function showNotif(msg){const n=document.getElementById('notif');document.getElementById('notif-text').textContent=msg;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),3000)}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+document.getElementById('modal-stock').addEventListener('click',function(e){if(e.target===this)closeModalStock()});
+</script>
+</body>
+</html>
